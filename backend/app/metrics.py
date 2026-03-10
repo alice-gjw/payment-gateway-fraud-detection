@@ -1,22 +1,23 @@
-"""Prometheus metrics setup"""
-
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 
 REQUEST_COUNT = Counter(
-    "prediction_requests_total",
-    "Total number of prediction requests",
-    ["status", "label"],
+    "request_count",
+    "Total requests by endpoint and status code",
+    ["endpoint", "status"],
 )
 
 REQUEST_LATENCY = Histogram(
-    "prediction_request_duration_seconds",
-    "Time spent processing prediction request",
-    buckets=[0.01, 0.025, 0.05, 0.075, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0, 2.5],
+    "request_latency_seconds", 
+    "Total request duration in seconds",
+    ["endpoint"],
+    buckets=[0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.2, 0.5, 1.0],
+)
+
+MODEL_INFERENCE = Histogram(
+    "model_inference_seconds",
+    "XGBoost predict_proba duration in seconds", 
+    buckets=[0.001, 0.05, 0.01, 0.025, 0.05, 0.1],
 )
 
 def get_metrics() -> tuple[str, str]:
-    """
-    Generate Prometheus-formatted metrics string. 
-    Returns (metrics_text, content_type) for use in the /metrics endpoint. 
-    
-    
+    return generate_latest().decode("utf-8"), CONTENT_TYPE_LATEST

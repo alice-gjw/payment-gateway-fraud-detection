@@ -50,3 +50,8 @@ async def ready():
     if not is_ready():
         return PlainTextResponse("model not loaded", status_code=503)
     return {"status": "ready"}
+
+@app.get("/metrics")
+async def metrics():
+    body, content_type = get)metrics()
+    return PlainTextResponse(body, media_type=content_type)
