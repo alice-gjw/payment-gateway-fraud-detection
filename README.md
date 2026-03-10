@@ -1,4 +1,4 @@
-# Real-Time Fraud Detection with Horizontal Pod Autoscaling on AWS EKS
+# Payment Gateway Fraud Detection with Horizontal Pod Autoscaling on AWS EKS
 
 ## Problem Statement
 
